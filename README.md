@@ -1,36 +1,125 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Jannat Khatoon - Professional Biodata
 
-## Getting Started
+A beautiful, mobile-optimized biodata website built with Next.js and Tailwind CSS.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+✅ **Complete Professional Biodata**
+- Personal Information with automatic age calculation
+- Contact Information
+- Educational Timeline 
+- Professional Experience
+- Family Information
+
+✅ **Mobile-First Design**
+- Fully responsive layout
+- Touch-friendly interface
+- Modern gradient design
+- Card-based layout
+
+✅ **Download Options**
+- PDF Download (jsPDF)
+- High-quality PNG Image Download (html2canvas)
+- Mobile-optimized downloads
+
+✅ **Professional Features**
+- Read-only form fields (data protection)
+- Timeline-style education display
+- Modern UI with Lucide React icons
+- Gradient backgrounds and shadows
+
+## Tech Stack
+
+- **Framework**: Next.js 15.4.1
+- **Styling**: Tailwind CSS 4
+- **Icons**: Lucide React
+- **PDF Generation**: jsPDF
+- **Image Export**: html2canvas
+- **Language**: TypeScript
+
+## Quick Start
+
+1. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+2. **Run development server**
+   ```bash
+   npm run dev
+   ```
+
+3. **Open browser**
+   Navigate to `http://localhost:3000`
+
+## Deployment
+
+### Deploy to Vercel (Recommended)
+
+1. **Install Vercel CLI**
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **Deploy**
+   ```bash
+   vercel
+   ```
+
+### Deploy to Netlify
+
+1. **Build the project**
+   ```bash
+   npm run build
+   ```
+
+2. **Deploy the `out` folder to Netlify**
+
+## Project Structure
+
+```
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx          # Root layout with metadata
+│   │   ├── page.tsx            # Main biodata component
+│   │   ├── globals.css         # Global styles
+│   │   └── favicon.ico
+│   └── components/             # (Future components)
+├── public/                     # Static assets
+├── next.config.ts              # Next.js configuration
+├── tailwind.config.ts          # Tailwind configuration
+└── package.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Customization
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To customize the biodata for another person:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Update personal information in `src/app/page.tsx`
+2. Modify the `calculateAge` function if needed
+3. Update metadata in `src/app/layout.tsx`
+4. Customize colors in Tailwind classes
 
-## Learn More
+## Key Information Included
 
-To learn more about Next.js, take a look at the following resources:
+- **Name**: Jannat Khatoon
+- **Age**: 24 years (auto-calculated)
+- **Location**: Dhanbad, Jharkhand
+- **Profession**: Full Stack Developer
+- **Experience**: 1+ Years
+- **Education**: B.Tech Computer Science (Expected 2025)
+- **Skills**: HTML, CSS, JavaScript, React, Node.js, MongoDB
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contact Information
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Email**: jannatkhatoon.dev@gmail.com
+- **Phone**: +91-9876543210
+- **Address**: Kasiyatand Basti, PO- Bhelatand, PS- Jogta, Dhanbad, Jharkhand
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project is created for personal use. Feel free to use as a template for your own biodata.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+Built with ❤️ using Next.js and Tailwind CSS
