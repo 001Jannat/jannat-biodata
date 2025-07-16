@@ -1,12 +1,10 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { Download, Mail, Phone, MapPin, User, Calendar, GraduationCap, Briefcase, Users, FileText, Image as ImageIcon, Heart, Globe, ExternalLink, ChevronRight, Instagram, Linkedin, Github, Star, Trophy, Eye } from 'lucide-react'
+import { Mail, Phone, MapPin, User, GraduationCap, Briefcase, Users, Heart, ExternalLink, Linkedin, Github, Star, Trophy, Eye } from 'lucide-react'
 
 export default function Home() {
-  const [isDownloading, setIsDownloading] = useState(false)
   const [activeSection, setActiveSection] = useState('personal')
-  const [showDownloadOptions, setShowDownloadOptions] = useState(false)
   const biodataRef = useRef<HTMLDivElement>(null)
 
   // Calculate age
@@ -21,360 +19,17 @@ export default function Home() {
     return age
   }
 
-  // Function to show complete biodata view with download options
+  // Function to show complete biodata view
   const showCompleteView = () => {
     setActiveSection('all')
-    setShowDownloadOptions(true)
   }
 
   // Function to go back to navigation view
   const goBackToNavigation = () => {
     setActiveSection('personal')
-    setShowDownloadOptions(false)
   }
 
   const age = calculateAge('2001-07-11')
-
-  const downloadAsPDF = async () => {
-    if (isDownloading) return
-    
-    setIsDownloading(true)
-    console.log('Starting PDF generation...')
-    
-    try {
-      // Import libraries
-      console.log('Importing libraries...')
-      const jsPDF = (await import('jspdf')).default
-      const html2canvas = (await import('html2canvas')).default
-      console.log('Libraries imported successfully')
-      
-      if (!biodataRef.current) {
-        throw new Error('Biodata reference not found')
-      }
-      
-      // Store original state
-      const originalSection = activeSection
-      console.log('Original section:', originalSection)
-      
-      // Hide download buttons
-      const downloadButtons = biodataRef.current.querySelector('.download-buttons') as HTMLElement
-      if (downloadButtons) downloadButtons.style.display = 'none'
-      
-      // Show all sections
-      console.log('Setting activeSection to "all"')
-      setActiveSection('all')
-      
-      // Wait for state update and DOM re-render
-      await new Promise(resolve => setTimeout(resolve, 3000))
-      console.log('State updated, capturing canvas...')
-      
-      // Force reflow to ensure all styles are applied
-      biodataRef.current.offsetHeight
-      
-      // Try canvas generation with better options
-      try {
-        const canvas = await html2canvas(biodataRef.current, {
-          scale: 2,
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: '#ffffff',
-          logging: true,
-          foreignObjectRendering: true,
-          removeContainer: false,
-          imageTimeout: 30000,
-          windowWidth: 400,
-          windowHeight: biodataRef.current.scrollHeight,
-          scrollX: 0,
-          scrollY: 0,
-          onclone: (clonedDoc, element) => {
-            console.log('Canvas cloned - applying better styles')
-            
-            // Create a comprehensive style override
-            const style = clonedDoc.createElement('style')
-            style.textContent = `
-              * {
-                box-sizing: border-box !important;
-              }
-              
-              .download-buttons { 
-                display: none !important; 
-              }
-              
-              /* Safe background colors */
-              .bg-pink-50 { 
-                background-color: #fdf2f8 !important; 
-              }
-              .bg-purple-50 { 
-                background-color: #faf5ff !important; 
-              }
-              .bg-white { 
-                background-color: #ffffff !important; 
-              }
-              .bg-gradient-to-r { 
-                background: linear-gradient(to right, #fdf2f8, #faf5ff) !important; 
-              }
-              .bg-gradient-to-br { 
-                background: linear-gradient(to bottom right, #fdf2f8, #faf5ff, #fdf2f8) !important; 
-              }
-              .bg-gradient-to-b { 
-                background: linear-gradient(to bottom, #fdf2f8, #ffffff) !important; 
-              }
-              
-              /* Safe text colors */
-              .text-gray-800 { 
-                color: #1f2937 !important; 
-              }
-              .text-pink-600 { 
-                color: #db2777 !important; 
-              }
-              .text-gray-600 { 
-                color: #4b5563 !important; 
-              }
-              .text-gray-500 { 
-                color: #6b7280 !important; 
-              }
-              .text-white { 
-                color: #ffffff !important; 
-              }
-              
-              /* Safe button colors */
-              .bg-pink-500 { 
-                background-color: #ec4899 !important; 
-              }
-              .bg-purple-500 { 
-                background-color: #8b5cf6 !important; 
-              }
-              .bg-blue-500 { 
-                background-color: #3b82f6 !important; 
-              }
-              .bg-green-500 { 
-                background-color: #10b981 !important; 
-              }
-              .bg-yellow-500 { 
-                background-color: #f59e0b !important; 
-              }
-              .bg-orange-500 { 
-                background-color: #f97316 !important; 
-              }
-              
-              /* Keep all layout and styling */
-              .rounded-full { border-radius: 9999px !important; }
-              .rounded-xl { border-radius: 0.75rem !important; }
-              .rounded-lg { border-radius: 0.5rem !important; }
-              .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important; }
-              .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important; }
-            `
-            clonedDoc.head.appendChild(style)
-            
-            return clonedDoc
-          }
-        })
-        
-        console.log('Canvas created successfully:', canvas.width, 'x', canvas.height)
-        
-        if (canvas.width === 0 || canvas.height === 0) {
-          throw new Error('Canvas is empty')
-        }
-        
-        // Generate PDF with proper sizing
-        const imgData = canvas.toDataURL('image/png', 1.0)
-        const pdf = new jsPDF('p', 'mm', 'a4')
-        const imgWidth = 210
-        const pageHeight = 297
-        const imgHeight = (canvas.height * imgWidth) / canvas.width
-        
-        console.log('PDF dimensions:', { imgWidth, imgHeight, pageHeight })
-        
-        // Add image to PDF with proper positioning
-        if (imgHeight <= pageHeight) {
-          // Single page
-          pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight)
-        } else {
-          // Multiple pages
-          let position = 0
-          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
-          
-          let heightLeft = imgHeight - pageHeight
-          while (heightLeft > 0) {
-            pdf.addPage()
-            position = -(pageHeight * (pdf.internal.getNumberOfPages() - 1))
-            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
-            heightLeft -= pageHeight
-          }
-        }
-        
-        console.log('Saving PDF...')
-        pdf.save('Jannat_Khatoon_Biodata.pdf')
-        
-        console.log('PDF generation completed successfully!')
-        
-      } catch (canvasError) {
-        console.error('Canvas generation failed:', canvasError)
-        throw canvasError // Don't fall back to text PDF, let user see the real error
-      }
-      
-      // Restore UI
-      setActiveSection(originalSection)
-      if (downloadButtons) downloadButtons.style.display = 'flex'
-      
-    } catch (error) {
-      console.error('PDF generation failed:', error)
-      alert(`PDF generation failed: ${error instanceof Error ? error.message : 'Unknown error'}\n\nPlease check console for details and try again.`)
-      
-      // Restore UI on error
-      const downloadButtons = biodataRef.current?.querySelector('.download-buttons') as HTMLElement
-      if (downloadButtons) downloadButtons.style.display = 'flex'
-      setActiveSection(originalSection)
-    } finally {
-      setIsDownloading(false)
-    }
-  }
-
-  const downloadAsImage = async () => {
-    if (isDownloading) return
-    
-    setIsDownloading(true)
-    console.log('Starting Image generation...')
-    
-    try {
-      // Import library
-      console.log('Importing html2canvas...')
-      const html2canvas = (await import('html2canvas')).default
-      console.log('html2canvas imported successfully')
-      
-      if (!biodataRef.current) {
-        throw new Error('Biodata reference not found')
-      }
-      
-      // Store original state
-      const originalSection = activeSection
-      console.log('Original section:', originalSection)
-      
-      // Hide download buttons
-      const downloadButtons = biodataRef.current.querySelector('.download-buttons') as HTMLElement
-      if (downloadButtons) downloadButtons.style.display = 'none'
-      
-      // Show all sections
-      console.log('Setting activeSection to "all"')
-      setActiveSection('all')
-      
-      // Wait for state update and DOM re-render
-      await new Promise(resolve => setTimeout(resolve, 3000))
-      console.log('State updated, capturing canvas...')
-      
-      // Force reflow to ensure all styles are applied
-      biodataRef.current.offsetHeight
-      
-      const canvas = await html2canvas(biodataRef.current, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff',
-        logging: true,
-        foreignObjectRendering: true,
-        removeContainer: false,
-        imageTimeout: 30000,
-        windowWidth: 400,
-        windowHeight: biodataRef.current.scrollHeight,
-        scrollX: 0,
-        scrollY: 0,
-        onclone: (clonedDoc, element) => {
-          console.log('Canvas cloned for image - applying comprehensive styles')
-          
-          // Create comprehensive style override
-          const style = clonedDoc.createElement('style')
-          style.textContent = `
-            * {
-              box-sizing: border-box !important;
-            }
-            
-            .download-buttons { 
-              display: none !important; 
-            }
-            
-            /* Safe background colors */
-            .bg-pink-50 { 
-              background-color: #fdf2f8 !important; 
-            }
-            .bg-purple-50 { 
-              background-color: #faf5ff !important; 
-            }
-            .bg-white { 
-              background-color: #ffffff !important; 
-            }
-            .bg-gradient-to-r { 
-              background: linear-gradient(to right, #fdf2f8, #faf5ff) !important; 
-            }
-            .bg-gradient-to-br { 
-              background: linear-gradient(to bottom right, #fdf2f8, #faf5ff, #fdf2f8) !important; 
-            }
-            .bg-gradient-to-b { 
-              background: linear-gradient(to bottom, #fdf2f8, #ffffff) !important; 
-            }
-            
-            /* Safe text colors */
-            .text-gray-800 { 
-              color: #1f2937 !important; 
-            }
-            .text-pink-600 { 
-              color: #db2777 !important; 
-            }
-            .text-gray-600 { 
-              color: #4b5563 !important; 
-            }
-            .text-gray-500 { 
-              color: #6b7280 !important; 
-            }
-            .text-white { 
-              color: #ffffff !important; 
-            }
-            
-            /* Keep all styling intact */
-            .rounded-full { border-radius: 9999px !important; }
-            .rounded-xl { border-radius: 0.75rem !important; }
-            .rounded-lg { border-radius: 0.5rem !important; }
-            .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important; }
-            .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important; }
-          `
-          clonedDoc.head.appendChild(style)
-          
-          return clonedDoc
-        }
-      })
-      
-      console.log('Canvas created for image:', canvas.width, 'x', canvas.height)
-      
-      if (canvas.width === 0 || canvas.height === 0) {
-        throw new Error('Canvas is empty')
-      }
-      
-      // Create download link
-      const link = document.createElement('a')
-      link.download = 'Jannat_Khatoon_Biodata.png'
-      link.href = canvas.toDataURL('image/png', 1.0)
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      
-      console.log('Image download triggered')
-      console.log('Image generation completed successfully!')
-      
-      // Restore UI
-      setActiveSection(originalSection)
-      if (downloadButtons) downloadButtons.style.display = 'flex'
-      
-    } catch (error) {
-      console.error('Image generation failed:', error)
-      alert(`Image generation failed: ${error instanceof Error ? error.message : 'Unknown error'}\n\nPlease check console for details and try again.`)
-      
-      // Restore UI on error
-      const downloadButtons = biodataRef.current?.querySelector('.download-buttons') as HTMLElement
-      if (downloadButtons) downloadButtons.style.display = 'flex'
-      setActiveSection(originalSection)
-    } finally {
-      setIsDownloading(false)
-    }
-  }
 
   const navigationButtons = [
     { id: 'personal', label: 'About Me', icon: User },
@@ -395,8 +50,8 @@ export default function Home() {
         
         {/* Header Section with Profile */}
         <div className="relative pt-12 pb-8 px-6 text-center bg-gradient-to-b from-pink-50 to-white">
-          {/* Single Download Button or Download Options */}
-          {!showDownloadOptions ? (
+          {/* Single View Button or Back Button */}
+          {activeSection !== 'all' ? (
             // Single button to view complete biodata
             <div className="absolute top-4 right-4 z-10">
               <button
@@ -451,7 +106,7 @@ export default function Home() {
           <div className="w-24 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 rounded-full mx-auto mb-6"></div>
 
           {/* Navigation Buttons - Only show when not in complete view */}
-          {!showDownloadOptions && (
+          {activeSection !== 'all' && (
             <>
               <div className="grid grid-cols-5 gap-2 mb-4">
                 {navigationButtons.map((nav) => {
@@ -772,7 +427,7 @@ export default function Home() {
             </div>
             
             <div className="text-sm text-gray-500 italic font-medium">
-              "Passionate • Dedicated"
+              &ldquo;Passionate • Dedicated&rdquo;
             </div>
           </div>
         </div>
