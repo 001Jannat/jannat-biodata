@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #fdf2f8 0%, #faf5ff 50%, #fdf2f8 100%);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bg-circle-1 {
+            position: absolute;
+            top: 50px;
+            right: 100px;
+            width: 160px;
+            height: 160px;
+            background: #ec4899;
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+        
+        .bg-circle-2 {
+            position: absolute;
+            bottom: 100px;
+            left: 150px;
+            width: 120px;
+            height: 120px;
+            background: #8b5cf6;
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+        
+        .content {
+            text-align: center;
+            z-index: 2;
+        }
+        
+        .name {
+            font-size: 64px;
+            font-weight: bold;
+            color: #1f2937;
+            margin: 0 0 20px 0;
+            letter-spacing: -1px;
+        }
+        
+        .title {
+            font-size: 40px;
+            color: #db2777;
+            margin: 0 0 30px 0;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            font-size: 28px;
+            color: #4b5563;
+            margin: 0 0 15px 0;
+        }
+        
+        .experience {
+            font-size: 24px;
+            color: #6b7280;
+            margin: 0 0 40px 0;
+        }
+        
+        .skills {
+            font-size: 22px;
+            color: #6b7280;
+            margin: 0 0 40px 0;
+        }
+        
+        .divider {
+            width: 300px;
+            height: 4px;
+            background: linear-gradient(to right, #ec4899, #8b5cf6, #ec4899);
+            border-radius: 2px;
+            margin: 0 auto 40px auto;
+        }
+        
+        .website {
+            font-size: 20px;
+            color: #8b5cf6;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-circle-1"></div>
+    <div class="bg-circle-2"></div>
+    
+    <div class="content">
+        <h1 class="name">Jannat Khatoon</h1>
+        <h2 class="title">Full Stack Developer</h2>
+        <p class="subtitle">Professional Biodata</p>
+        <p class="experience">1+ Years Experience at Lawazia Tech</p>
+        <div class="divider"></div>
+        <p class="skills">B.Tech Computer Science • Web Development</p>
+        <p class="website">jannat-biodata.vercel.app</p>
+    </div>
+</body>
+</html>
